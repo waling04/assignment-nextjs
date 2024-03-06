@@ -1,13 +1,8 @@
 import { connect } from '@/dbConfig/dbConfig'
 import Quiz from '@/models/quiz'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-type PropsType = {
-  params?: any
-  json: any
-}
-
-export async function PUT(request: PropsType, { params }: PropsType) {
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params
   const {
     newTestId: testId,
@@ -31,7 +26,7 @@ export async function PUT(request: PropsType, { params }: PropsType) {
   return NextResponse.json({ message: 'Quiz Updated' }, { status: 200 })
 }
 
-export async function GET(request: PropsType, { params }: PropsType) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params
   await connect()
   const quiz = await Quiz.findOne({ _id: id })
