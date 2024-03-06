@@ -64,7 +64,7 @@ const LoginPage = () => {
         </fieldset>
       </form>
       <div className="text-white flex justify-center items-center mt-8">
-        haven't signup yet?{' '}
+        haven not signup yet?{' '}
         <Link href="/signup" className="text-green-400 ml-2">
           signup
         </Link>
