@@ -1,19 +1,6 @@
 import { connect } from '@/dbConfig/dbConfig'
 import Quiz from '@/models/quiz'
-import { NextResponse } from 'next/server'
-
-type PropsType = {
-  id: string
-  testId: string
-  question: string
-  choiceA: string
-  choiceB: string
-  choiceC: string
-  choiceD: string
-  answer: string
-  json: any
-  nextUrl: any
-}
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET() {
   await connect()
@@ -22,7 +9,7 @@ export async function GET() {
   return NextResponse.json({ quizzes })
 }
 
-export async function POST(request: PropsType) {
+export async function POST(request: NextRequest) {
   const { testId, question, choiceA, choiceB, choiceC, choiceD, answer } =
     await request.json()
   await connect()
@@ -38,7 +25,7 @@ export async function POST(request: PropsType) {
   return NextResponse.json({ message: 'Question Added' }, { status: 201 })
 }
 
-export async function DELETE(request: PropsType) {
+export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get('id')
   await connect()
   await Quiz.findByIdAndDelete({ _id: id })
