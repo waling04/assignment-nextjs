@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 type PropsType = {
   id: string
@@ -33,7 +33,7 @@ const EditQuiz = ({
   const [newAnswer, setNewAnswer] = useState(answer)
 
   const router = useRouter()
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement> ) => {
     e.preventDefault()
     try {
       const res = await fetch(`/api/quiz/${id}`, {

@@ -1,15 +1,13 @@
 import NextAuth from 'next-auth'
-// import CredentialsProvider from "next-auth/providers/credentials";
 import Credentials from 'next-auth/providers/credentials'
-// import { connect } from "@/dbConfig/dbConfig";
-// import User from "@/models/user";
+import { DBConnect } from './models/DBConnection';
+import User from './models/user';
 
-interface User {
-  id: number
-  name: string
-  password: string
-  role: string
-}
+// declare module "next-auth" {
+//     interface User {
+//       role: string
+//     }
+//   }
 
 export const {
   auth,
@@ -20,44 +18,36 @@ export const {
     Credentials({
       name: 'credentials',
       async authorize(credential) {
-        // await connect()
-        // const user = await User.findOne({username: credential?.username, password: credential?.password})
-        // console.log(user)
-        // if(!user) return null
-        // return user;
-        const user: User = {
-          id: 12,
-          name: 'tb',
-          password: 'admin',
-          role: 'admin',
-        }
-        if (
-          credential?.username === user.name &&
-          credential?.password === user.password
-        ) {
-          return user
-        } else {
-          return null
-        }
+        await DBConnect()
+        const user = await User.findOne({
+          username: credential?.username,
+          password: credential?.password,
+        })
+        console.log('db username: ', user)
+        if(user) {
+          return user.toJSON()
+        } return null
       },
     }),
   ],
-  secret: process.env.AUTH_SECRET,
-  pages: {
-    signIn: '/login',
-  },
+  // secret: process.env.AUTH_SECRET,
+  // pages: {
+  //   signIn: '/login',
+  // },
   callbacks: {
-    jwt: async ({ token, user }) => {
+    async jwt ( input ) {
+      const {token, user} = input
       if (user) {
         // token.role = 'admin'
-        token.role = user.role
+        token.user = user
       }
       return token
     },
-    session: async ({ session, token }: any) => {
+    async session ({ session, token }) {
       if (session?.user) {
-        session.user.role = token.role
+        session.user = token.user
       }
+      // console.log('session: ', session)
       return session
     },
   },

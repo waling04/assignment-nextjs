@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { IoIosWarning } from 'react-icons/io'
 import { loginAction } from '../components/action/loginAction'
 
@@ -16,10 +16,10 @@ const LoginPage = () => {
   } = useForm()
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const onSubmit = async (data: string) => {
+  const onSubmit = async (data: FieldValues) => {
     const res = await loginAction(data)
     setErrorMessage(res?.error)
-    console.log('Response :', res)
+    // console.log('Response :', res)
   }
   return (
     <div className="max-w-sm mx-auto mt-20 bg-gray-800 rounded-lg min-h-[350px] p-10">
@@ -64,7 +64,7 @@ const LoginPage = () => {
         </fieldset>
       </form>
       <div className="text-white flex justify-center items-center mt-8">
-        haven not signup yet?{' '}
+        have not signup yet?{' '}
         <Link href="/signup" className="text-green-400 ml-2">
           signup
         </Link>

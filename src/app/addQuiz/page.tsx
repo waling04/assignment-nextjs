@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 const AddQuiz = () => {
   const [testId, setTestId] = useState('')
@@ -13,7 +13,7 @@ const AddQuiz = () => {
   const [answer, setAnswer] = useState('')
   const router = useRouter()
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (

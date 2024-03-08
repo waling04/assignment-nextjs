@@ -1,10 +1,10 @@
 'use server'
 
-import { connect } from '@/dbConfig/dbConfig'
-import User from '@/models/user'
+import { DBConnect } from '@/app/models/DBConnection'
+import User from '@/app/models/user'
 
-export async function signupAction(formData: any) {
-  await connect()
+export async function signupAction(formData: String) {
+  await DBConnect()
   await User.create(formData)
   console.log('formData: ', formData)
 }

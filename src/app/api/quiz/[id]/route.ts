@@ -1,5 +1,5 @@
-import { connect } from '@/dbConfig/dbConfig'
-import Quiz from '@/models/quiz'
+import { DBConnect } from '@/app/models/DBConnection'
+import Quiz from '@/app/models/quiz'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
@@ -13,7 +13,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     newChoiceD: choiceD,
     newAnswer: answer,
   } = await request.json()
-  await connect()
+  await DBConnect()
   await Quiz.findByIdAndUpdate(id, {
     testId,
     question,
@@ -28,7 +28,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params
-  await connect()
+  await DBConnect()
   const quiz = await Quiz.findOne({ _id: id })
   // console.log('first: ', quiz);
   return NextResponse.json({ quiz }, { status: 200 })
