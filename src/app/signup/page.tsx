@@ -1,10 +1,11 @@
 'use client'
-import Link from 'next/link'
+
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IoIosWarning } from 'react-icons/io'
 import { signupAction } from '../components/action/signupAction'
+import Link from 'next/link'
 
 function SignUp() {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -15,7 +16,7 @@ function SignUp() {
     formState: { errors },
   } = useForm()
   const router = useRouter()
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: string) => {
     await signupAction(data)
     router.push('/login')
     // console.log('Response: ', data)
@@ -73,6 +74,12 @@ function SignUp() {
           </button>
         </fieldset>
       </form>
+      <div className="text-white flex justify-center items-center mt-8">
+        Already have an account?{' '}
+        <Link href="/login" className="text-green-400 ml-2">
+          Login
+        </Link>
+      </div>
     </div>
   )
 }
